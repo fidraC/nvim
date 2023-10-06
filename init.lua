@@ -45,7 +45,7 @@ vim.g.maplocalleader = ' '
 vim.wo.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 2 -- What you expecting
-vim.opt.shiftwidth = 2 -- What you expecting
+vim.opt.shiftwidth = 2  -- What you expecting
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -89,12 +89,16 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
   },
+  -- Formatting
+  { 'jose-elias-alvarez/null-ls.nvim' },
+  { 'MunifTanjim/prettier.nvim' },
+  { 'nvim-lua/plenary.nvim' },
 
   {
     -- Autocompletion
@@ -113,7 +117,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -131,16 +135,16 @@ require('lazy').setup({
 
         -- don't override the built-in and fugitive keymaps
         local gs = package.loaded.gitsigns
-        vim.keymap.set({'n', 'v'}, ']c', function()
+        vim.keymap.set({ 'n', 'v' }, ']c', function()
           if vim.wo.diff then return ']c' end
           vim.schedule(function() gs.next_hunk() end)
           return '<Ignore>'
-        end, {expr=true, buffer = bufnr, desc = "Jump to next hunk"})
-        vim.keymap.set({'n', 'v'}, '[c', function()
+        end, { expr = true, buffer = bufnr, desc = "Jump to next hunk" })
+        vim.keymap.set({ 'n', 'v' }, '[c', function()
           if vim.wo.diff then return '[c' end
           vim.schedule(function() gs.prev_hunk() end)
           return '<Ignore>'
-        end, {expr=true, buffer = bufnr, desc = "Jump to previous hunk"})
+        end, { expr = true, buffer = bufnr, desc = "Jump to previous hunk" })
       end,
     },
   },
@@ -216,6 +220,7 @@ require('lazy').setup({
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   -- require 'kickstart.plugins.autoformat',
+  -- require 'keybinds',
   -- require 'kickstart.plugins.debug',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -439,9 +444,11 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
-  vim.keymap.set({'n', 'x'}, 'gq', function()
-    vim.lsp.buf.format({async = false, timeout_ms = 10000})
-  end, {desc = 'Format the buffer with LSP'})
+  vim.keymap.set({ 'n', 'x' }, 'gq', function()
+    vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
+  end, { desc = 'Format the buffer with LSP' })
+
+  vim.api.nvim_set_keymap('n', 'bq', ':Prettier<CR>', { noremap = true, silent = true })
 end
 
 -- Enable the following language servers
