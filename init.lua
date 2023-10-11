@@ -455,7 +455,7 @@ local on_attach = function(_, bufnr)
     vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
   end, { desc = 'Format the buffer with LSP' })
 
-  vim.api.nvim_set_keymap('n', '<leader>b', ':Prettier<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>gb', ':Prettier<CR>', { noremap = true, silent = true })
 end
 
 -- document existing key chains
