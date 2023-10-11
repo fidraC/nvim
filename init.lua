@@ -43,7 +43,7 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.wo.relativenumber = true
-vim.opt.tabstop = 4
+vim.opt.tabstop = 2
 vim.opt.softtabstop = 2 -- What you expecting
 vim.opt.shiftwidth = 2  -- What you expecting
 -- Install package manager
@@ -117,7 +117,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',  opts = {} },
+  { 'folke/which-key.nvim',                opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -172,19 +172,9 @@ require('lazy').setup({
     },
   },
 
-  {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
-  },
-
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',               opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -448,7 +438,7 @@ local on_attach = function(_, bufnr)
     vim.lsp.buf.format({ async = false, timeout_ms = 10000 })
   end, { desc = 'Format the buffer with LSP' })
 
-  vim.api.nvim_set_keymap('n', 'bq', ':Prettier<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>b', ':Prettier<CR>', { noremap = true, silent = true })
 end
 
 -- Enable the following language servers
