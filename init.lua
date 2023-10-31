@@ -506,6 +506,17 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  pylsp = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          ignore = { 'W391' },
+          maxLineLength = 100
+        }
+      }
+    }
+  },
+
 }
 
 -- Setup neovim lua configuration
