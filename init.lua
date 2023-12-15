@@ -67,6 +67,10 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
+  -- Custom configuration by fidraC
+  'gptlang/CopilotChat.nvim',
+  'zbirenbaum/copilot.lua',
+  'MunifTanjim/prettier.nvim',
   -- NOTE: First, some plugins that don't require any configuration
 
   -- Git related plugins
@@ -113,7 +117,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -423,7 +427,7 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'css', 'html' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -578,6 +582,16 @@ local servers = {
       -- diagnostics = { disable = { 'missing-fields' } },
     },
   },
+  pylsp = {
+    pylsp = {
+      plugins = {
+        pycodestyle = {
+          ignore = { 'W391', 'W503' },
+          maxLineLength = 100
+        }
+      }
+    }
+  },
 }
 
 -- Setup neovim lua configuration
@@ -659,3 +673,26 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+
+-- Custom configuration by fidraC
+vim.api.nvim_set_keymap('n', '<leader>gb', ':Prettier<CR>', { noremap = true, silent = true })
+
+require("copilot").setup({
+  filetypes = {
+    ["."] = true,
+  },
+  suggestion = {
+    enabled = false,
+    auto_trigger = true,
+    debounce = 75,
+    keymap = {
+      accept = "<M-l>",
+      accept_word = false,
+      accept_line = false,
+      next = "<M-]>",
+      prev = "<M-[>",
+      dismiss = "<C-]>",
+    },
+  },
+})
