@@ -72,6 +72,23 @@ vim.opt.rtp:prepend(lazypath)
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
+	{
+    "jellydn/CopilotChat.nvim",
+    opts = {
+      mode = "split", -- newbuffer or split  , default: newbuffer
+    },
+    build = function()
+      vim.defer_fn(function()
+        vim.cmd("UpdateRemotePlugins")
+        vim.notify("CopilotChat - Updated remote plugins. Please restart Neovim.")
+      end, 3000)
+    end,
+    event = "VeryLazy",
+    keys = {
+      { "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+      { "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+    },
+  },
 	-- NOTE: First, some plugins that don't require any configuration
 	'zbirenbaum/copilot.lua',
 	{
@@ -666,3 +683,25 @@ require("copilot").setup({
 	},
 })
 require('Comment').setup()
+
+local map = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- Remap normal mode delete operations to use the black-hole register
+map('n', 'd', '"_d', opts)
+map('n', 'dd', '"_dd', opts)
+map('n', 'D', '"_D', opts)
+
+-- Remap visual mode delete operations to use the black-hole register
+map('v', 'd', '"_d', opts)
+map('v', 'D', '"_D', opts)
+map('v', 'x', '"_x', opts)
+
+-- Remap operator-pending mode delete operations to use the black-hole register
+map('o', 'd', '"_d', opts)
+map('o', 'D', '"_D', opts)
+map("v", "p", "P", opts)
+
+-- Remap c replace operations to use the black-hole register
+map('v', 'c', '"_c', opts)
+map('n', 'c', '"_c', opts)
