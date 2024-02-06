@@ -44,9 +44,12 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.wo.relativenumber = true
-vim.opt.tabstop = 2
-vim.opt.softtabstop = 2
-vim.opt.shiftwidth = 2
+-- Show tabs as 2 characters
+vim.opt.tabstop = 3
+vim.opt.softtabstop = 3
+vim.opt.shiftwidth = 3
+vim.o.noexpandtab = true
+vim.opt.mouse = ""
 -- Install package manager
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -284,7 +287,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
+-- vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -686,22 +689,3 @@ require('Comment').setup()
 
 local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
-
--- Remap normal mode delete operations to use the black-hole register
-map('n', 'd', '"_d', opts)
-map('n', 'dd', '"_dd', opts)
-map('n', 'D', '"_D', opts)
-
--- Remap visual mode delete operations to use the black-hole register
-map('v', 'd', '"_d', opts)
-map('v', 'D', '"_D', opts)
-map('v', 'x', '"_x', opts)
-
--- Remap operator-pending mode delete operations to use the black-hole register
-map('o', 'd', '"_d', opts)
-map('o', 'D', '"_D', opts)
-map("v", "p", "P", opts)
-
--- Remap c replace operations to use the black-hole register
-map('v', 'c', '"_c', opts)
-map('n', 'c', '"_c', opts)
